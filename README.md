@@ -4,9 +4,11 @@
 ## Overview
 This project is a fork of the original repository [geneprediction-tp](https://github.com/aghozlane/geneprediction-tp), aimed at developing a program to predict prokaryotic genes based on the detection of reading frames and the Shine-Dalgarno motif, which is crucial for initiating protein translation. The Shine-Dalgarno sequence, AGGAGGUAA, binds to the 16S rRNA subunit to initiate translation, as described by [Shine and Dalgarno in 1973](https://www.sciencedirect.com/science/article/pii/0022283673905287). Above is a diagram showing the Shine-Dalgarno sequence in relation to the start codon AUG.
 
-<img src="data/shine_dalagarno_diagram.png" align="center" />
+<img src="data/shine_dalagarno_diagram.png" align="center" size= "600"  />
 
-We focused on the referencegenome of the bacterium[Listeria monocytogenes EGD-e](https://www.ncbi.nlm.nih.gov/genome/browse/#!/proteins/159/159660%7CListeria%20monocytogenes%20EGD-e/) (assembled and sequenced by the Institut Pasteur), which presents 2867 genes. The program will get the
+
+
+We focused on the referencegenome of the bacterium [Listeria monocytogenes EGD-e](https://www.ncbi.nlm.nih.gov/genome/browse/#!/proteins/159/159660%7CListeria%20monocytogenes%20EGD-e/) (assembled and sequenced by the Institut Pasteur), which presents 2867 genes. The program will get the
 
 
 ## Usage 💻
@@ -38,13 +40,22 @@ Example :
 python gpred/gpred.py -i data/listeria.fna -p results/predicted_genes_positions.csv -o results/predicted_genes.fasta
 ```
 
-> This command will predict genes in the Listeria genome file [`data/listeria.fna`]() with a minimum gene length of 50, a maximum distance of 16 between the start codon and the Shine-Dalgarno motif, a minimum gap of 40 between two genes, and will output the predicted genes and their positions in the files [`results/predicted_genes_positions.csv`]() and [`results/predicted_genes.fasta`]().
+
+This command will predict genes in the Listeria genome file [`data/listeria.fna`]() with a minimum gene length of 50, a maximum distance of 16 between the start codon and the Shine-Dalgarno motif, a minimum gap of 40 between two genes, and will output the predicted genes and their positions in the files [`results/predicted_genes_positions.csv`]() and [`results/predicted_genes.fasta`]().
 
 
 ## Testing the results 🧪
 
+To evaluate the accuracy of our predicted genes, we will compare them to a reference set of known genes. This comparison is done using [`jvenn`](https://jvenn.toulouse.inra.fr/app/example.html), an online tool for Venn diagram analysis, provided by INRA.
+
+We will compare the predicted genes from our program with the reference genes from the `data/prodigal.csv` file that contains the genes predicted by the Prodigal software  and the `data/positions.csv` file that contains the positions of the reference genes in the Listeria genome.
 
 
+<img src="results/jVenn_chart.png" align="center" width= "600"  />
+
+The intersection between the three sets represents the genes that are correctly predicted by our program. The intersection between the predicted genes and the reference genes from Prodigal represents the genes that are correctly predicted by our program but not by Prodigal. The intersection between the predicted genes and the reference genes represents the genes that are correctly predicted by Prodigal but not by our program. The intersection between the predicted genes and the reference genes represents the genes that are correctly predicted by our program but not by Prodigal.
+
+We can see that ...
 
 
 
