@@ -43,7 +43,7 @@ python gpred/gpred.py -i data/listeria.fna -p results/predicted_genes_positions.
 ```
 
 
-This command will predict genes in the Listeria genome file [`data/listeria.fna`]() with a minimum gene length of 50, a maximum distance of 16 between the start codon and the Shine-Dalgarno motif, a minimum gap of 40 between two genes, and will output the predicted genes and their positions in the files [`results/predicted_genes_positions.csv`]() and [`results/predicted_genes.fasta`]().
+This command will predict genes in the Listeria genome file [`data/listeria.fna`](https://github.com/Essmaw/GenePred-Listeria/blob/master/data/listeria.fna) with a minimum gene length of 50, a maximum distance of 16 between the start codon and the Shine-Dalgarno motif, a minimum gap of 40 between two genes, and will output the predicted genes and their positions in the files [`results/predicted_genes_positions.csv`](https://github.com/Essmaw/GenePred-Listeria/blob/master/results/predicted_genes_positions.csv) and [`results/predicted_genes.fasta`](https://github.com/Essmaw/GenePred-Listeria/blob/master/results/predicted_genes.fasta).
 
 
 ## Testing the results 🧪
