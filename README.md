@@ -5,7 +5,7 @@
 This project is a fork of the original repository [geneprediction-tp](https://github.com/aghozlane/geneprediction-tp), aimed at developing a program to predict prokaryotic genes based on the detection of reading frames and the Shine-Dalgarno motif, which is crucial for initiating protein translation. The Shine-Dalgarno sequence, AGGAGGUAA, binds to the 16S rRNA subunit to initiate translation, as described by [Shine and Dalgarno in 1973](https://www.sciencedirect.com/science/article/pii/0022283673905287). Above is a diagram showing the Shine-Dalgarno sequence in relation to the start codon AUG.
 
 <div  align="center">
-  <img src="data/shine_dalagarno_diagram.png" width= "400"  />
+  <img src="data/shine_dalagarno_diagram.png" width= "600"  />
 </div>
 
 
@@ -56,7 +56,10 @@ We will compare the predicted genes from our program with the reference genes fr
   <img src="results/jVenn_chart.png" width=400/>
 </div>
 
-The intersection between the three sets represents the genes that are correctly predicted by our program. The intersection between the predicted genes and the reference genes from Prodigal represents the genes that are correctly predicted by our program but not by Prodigal. The intersection between the predicted genes and the reference genes represents the genes that are correctly predicted by Prodigal but not by our program. The intersection between the predicted genes and the reference genes represents the genes that are correctly predicted by our program but not by Prodigal.
+- Intersection between the three sets → genes that are correctly predicted by our program.
+- Intersection between Gpred + Prodigal → genes that are correctly predicted by our program but not by Prodigal. 
+- Intersection between Listeria + Prodigal → genes that are correctly predicted by Prodigal but not by our program. 
+- Intersection between Gpred + Listeria → genes that are correctly predicted by our program but not by Prodigal.
 
 We can see that ...
 
