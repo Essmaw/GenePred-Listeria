@@ -1,38 +1,52 @@
-# Gene prediction
+# GenePred-Listeria 🧬
 
 
-## Summary
+## Overview
+This project is a fork of the original repository [geneprediction-tp](https://github.com/aghozlane/geneprediction-tp), aimed at developing a program to predict prokaryotic genes based on the detection of reading frames and the Shine-Dalgarno motif, which is crucial for initiating protein translation. The Shine-Dalgarno sequence, AGGAGGUAA, binds to the 16S rRNA subunit to initiate translation, as described by [Shine and Dalgarno in 1973](https://www.sciencedirect.com/science/article/pii/0022283673905287). Above is a diagram showing the Shine-Dalgarno sequence in relation to the start codon AUG.
 
-Genes correspond to a subsequence of transcripts that can be translated into proteins by the ribosome. They have a reading frame consisting of consecutive triplets from an initiation codon ('AUG', 'UUG', 'CUG', 'AUU' or 'GUG') and a stop codon (UAA', 'UAG', or 'UGA'). These codons are in the same reading frame!
-We find upstream of the initiation codon a motif allowing the initiation of translation via the binding of the 16S subunit of ribosomal RNA: AGGAGGUAA called the Shine-Dalagarno sequence [\[Shine and Dalgarno 1973\]](https://www.sciencedirect.com/science/article/pii/0022283673905287). This motif is not necessarily in the same reading frame as the initiation codon and may be incomplete.
+<img src="data/shine_dalagarno_diagram.png" align="center" />
 
-<img src="/doc/illustrate.png" align="center" />
-
-Few organisms currently benefit from an experimentally verified annotation. Gene prediction therefore remains an important task for the automatic annotation of genomes. Multiple software and approaches exist for this [task](https://en.wikipedia.org/wiki/List_of_gene_prediction_software).
-
-We will develop a simple approach to predict prokaryotic genes based on the detection of reading frames and the Shine-Dalgarno motif. The objective of this practical work will be to predict the genes of the reference genome of [Listeria monocytogenes EGD-e](https://www.ncbi.nlm.nih.gov/genome/browse/#!/proteins/159/159660%7CListeria%20monocytogenes%20EGD-e/) (assembled and sequenced by the Institut Pasteur), which presents 2867 genes.
+We focused on the referencegenome of the bacterium[Listeria monocytogenes EGD-e](https://www.ncbi.nlm.nih.gov/genome/browse/#!/proteins/159/159660%7CListeria%20monocytogenes%20EGD-e/) (assembled and sequenced by the Institut Pasteur), which presents 2867 genes. The program will get the
 
 
-## Basic usage
-
+## Usage 💻
+### Installation
+To run the programm, you need to install the following dependencies:
 ```
-python3 gpred/gpred.py -i data/listeria.fasta -p predicted_gene_positions.csv -o  predicted_genes.fasta 
+pip install loguru regex
 ```
 
-Available arguments:
+### Running the Gene Prediction
+The Gene Prediction can be run using the following command:
+
 ```
-  -h, --help            show this help message and exit
-  -i GENOME_FILE        Complete genome file in fasta format
-  -g MIN_GENE_LEN       Minimum gene length to consider (default 50).
-  -s MAX_SHINE_DALGARNO_DISTANCE
-                        Maximum distance from start codon where to look for a Shine-Dalgarno motif (default 16)
-  -d MIN_GAP            Minimum gap between two genes (shine box not included, default 40).
-  -p PREDICTED_GENES_FILE
-                        Tabular file giving position of predicted genes
-  -o FASTA_FILE         Fasta file giving sequence of predicted genes
+python gpred/gpred.py -i [genome_file] -g [min_gene_len] -s [max_shine_dalgarno_distance] -d [min_gap] -p [predicted_genes_file] -o [fasta_output_file]
 ```
 
-## Example
+Options :
 
-We can compair the result of gpred compaired to [genome annotation](/data/position.csv) and [prodigal](https://github.com/hyattpd/Prodigal) [complete genes prediction](/data/prodigal.csv):
-<img src="/doc/compair.png" align="center" />
+ - `-i`, -genome_file : The path to the genome file in FASTA format.
+ - `-g`, -min_gene_len : The minimum gene length (optional - default value 50)
+ - `-s`, -max_shine_dalgarno_distance : The maximum distance between the start codon and the Shine-Dalgarno sequence (optional - default value 16)
+ - `-d`, -min_gap : The minimum gap between two genes (optional - default value 40)
+ - `-p`, -predicted_genes_file : The path to the output file containing the predicted genes.
+ - `-o`, -fasta_output_file : The path to the output file containing the predicted genes in FASTA format.
+
+
+Example :
+```
+python gpred/gpred.py -i data/listeria.fna -p results/predicted_genes_positions.csv -o results/predicted_genes.fasta
+```
+
+> This command will predict genes in the Listeria genome file [`data/listeria.fna`]() with a minimum gene length of 50, a maximum distance of 16 between the start codon and the Shine-Dalgarno motif, a minimum gap of 40 between two genes, and will output the predicted genes and their positions in the files [`results/predicted_genes_positions.csv`]() and [`results/predicted_genes.fasta`]().
+
+
+## Testing the results 🧪
+
+
+
+
+
+
+## Author 🧑‍💻
+- [Essmay Touami](essmay.touami@etu.u-paris.fr)
