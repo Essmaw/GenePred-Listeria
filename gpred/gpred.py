@@ -133,7 +133,7 @@ def read_fasta(fasta_file: Path) -> str:
                 continue
             sequence.append(
                 line.strip().upper()
-            )  # Ensure that the sequence is in uppercase
+            )  # Ensure that the seq is in uppercase
 
     seq = "".join(sequence)
     logger.debug(f"{len(seq)} nucleotides found.")
@@ -157,7 +157,7 @@ def find_start(
     is_new_start_codon = start_regex.search(sequence, start, stop)
     if is_new_start_codon:
         # Return the position of the start codon
-        return is_new_start_codon.start()
+        return is_new_start_codon.start(0)
     return None
 
 
@@ -169,12 +169,12 @@ def find_stop(stop_regex: Pattern, sequence: str, start: int) -> Union[int, None
     :param start: (int) Start position of the research
     :return: (int) If exist, position of the stop codon. Otherwise None.
     """
-    # Search for a stop codon in the sequence after the start codon
-    for i in range(start + 3, len(sequence) - 2, 3):
-        codon = sequence[i : i + 3]
-        if stop_regex.fullmatch(codon):
-            # Return the position of the stop codon
-            return i
+    stop_codons = stop_regex.finditer(sequence, start) 
+    if stop_codons:
+        for match in stop_codons:
+            # checking if the match is in the reading frame
+            if (match.start(0)-start)%3 == 0:
+                return match.start(0)
     return None
 
 
@@ -192,13 +192,10 @@ def has_shine_dalgarno(
     # Define the search window
     pos_search = start - max_shine_dalgarno_distance
     # Check if the search window is valid
-    if pos_search < 0:
-        return False
-    # Search for the motif in the search window
-    for i in range(pos_search, start - 6):
-        if shine_regex.search(sequence[i : i + len(shine_regex.pattern)]):
+    if pos_search >= 0:
+        shine_matches = shine_regex.search(sequence, pos_search, start-6)
+        if shine_matches:
             return True
-
     return False
 
 
@@ -228,29 +225,29 @@ def predict_genes(
     # Iterate over the sequence considering the minimum gap
     while len(sequence) - current_pos >= min_gap:
         # Find the next start and stop codon
-        start_pos = find_start(start_regex, sequence, current_pos, len(sequence))
-        stop_pos = find_stop(stop_regex, sequence, start_pos)
-        # Checks if the start and stop codon are found
-        if start_pos is None or stop_pos is None:
-            current_pos += 1
-            continue
-
-        # Check if the gene is long enough
-        if stop_pos - start_pos + 3 >= min_gene_len:
-            # Check if there is a shine dalgarno motif before the start codon
-            if has_shine_dalgarno(
-                shine_regex, sequence, start_pos, max_shine_dalgarno_distance
-            ):
-                # Add the gene to the list
-                probable_genes.append([start_pos + 1, stop_pos + 3])
-                # Mve the current position after the gene added with the minimum gap
-                current_pos = stop_pos + 3 + min_gap
+        current_pos = find_start(start_regex, sequence, current_pos, len(sequence))
+        if current_pos:
+            stop_pos = find_stop(stop_regex, sequence, current_pos)
+            if stop_pos:
+                # Check if the gene is long enough
+                if (stop_pos - current_pos + 3) >= min_gene_len:
+                    # Check if there is a shine dalgarno motif before the start codon
+                    if has_shine_dalgarno(
+                        shine_regex, sequence, current_pos, max_shine_dalgarno_distance
+                    ):
+                        # Add the gene to the list
+                        probable_genes.append([current_pos + 1, stop_pos + 3])
+                        # Mve the current position after the gene added with the minimum gap
+                        current_pos = stop_pos + 2 + min_gap
+                    else:
+                        # Move to next codon if no shine dalgarno
+                        current_pos += 1
+                else:
+                    # Move to next codon if gene is too short
+                    current_pos += 1
             else:
-                # Move to next codon if no shine dalgarno
+                # Move to next codon if no stop codon
                 current_pos += 1
-        else:
-            # Move to next codon if gene is too short
-            current_pos += 1
 
     logger.success(f"{len(probable_genes)} genes predicted successfully! \n")
     return probable_genes
