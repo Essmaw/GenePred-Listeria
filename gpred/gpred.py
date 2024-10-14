@@ -230,15 +230,15 @@ def predict_genes(
             stop_pos = find_stop(stop_regex, sequence, current_pos)
             if stop_pos:
                 # Check if the gene is long enough
-                if (stop_pos - current_pos + 3) >= min_gene_len:
+                if (stop_pos - current_pos) >= min_gene_len:
                     # Check if there is a shine dalgarno motif before the start codon
                     if has_shine_dalgarno(
                         shine_regex, sequence, current_pos, max_shine_dalgarno_distance
                     ):
                         # Add the gene to the list
                         probable_genes.append([current_pos + 1, stop_pos + 3])
-                        # Mve the current position after the gene added with the minimum gap
-                        current_pos = stop_pos + 2 + min_gap
+                        # Move the current position after the gene added with the minimum gap
+                        current_pos = stop_pos + 3 + min_gap
                     else:
                         # Move to next codon if no shine dalgarno
                         current_pos += 1
