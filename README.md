@@ -76,4 +76,4 @@ We can see that using only shine dalgarno motif is not enough to predict all the
 
 
 ## Author 🧑‍💻
-- [Essmay Touami](essmay.touami@etu.u-paris.fr)
+- [Essmay Touami](mailto:essmay.touami@etu.u-paris.fr)
