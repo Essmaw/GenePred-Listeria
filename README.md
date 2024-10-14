@@ -9,8 +9,21 @@ This project is a fork of the original repository [geneprediction-tp](https://gi
 </div>
 
 
+We focused on the referencegenome of the bacterium [Listeria monocytogenes EGD-e](https://www.ncbi.nlm.nih.gov/genome/browse/#!/proteins/159/159660%7CListeria%20monocytogenes%20EGD-e/) (assembled and sequenced by the Institut Pasteur), which presents 2867 genes. 
 
-We focused on the referencegenome of the bacterium [Listeria monocytogenes EGD-e](https://www.ncbi.nlm.nih.gov/genome/browse/#!/proteins/159/159660%7CListeria%20monocytogenes%20EGD-e/) (assembled and sequenced by the Institut Pasteur), which presents 2867 genes. The program will get the
+The program will:
+
+1. **Read the Genome Sequence**: Load the genome sequence from the input FASTA file.
+
+2. **Identify Potential Genes**: 
+- Detect start and stop codons using regex.
+- Search for Shine-Dalgarno motifs upstream of start codons.
+
+3. **Validate Genes**: Ensure the gene length meets the minimum threshold and respect the gap between genes.
+
+4. **Process the Reverse Complement**: Analyze the reverse complement sequence and adjust gene coordinates accordingly.
+
+5. **Output Predictions**: Save predicted gene positions for both strands in a CSV file for comparison with reference data.
 
 
 ## Usage 💻
@@ -56,13 +69,12 @@ We will compare the predicted genes from our program with the reference genes fr
   <img src="results/jVenn_chart.png" width=400/>
 </div>
 
-- Intersection between the three sets → genes that are correctly predicted by our program.
-- Intersection between Gpred + Prodigal → genes that are correctly predicted by our program but not by Prodigal. 
+- Intersection between the three sets → genes that are correctly predicted by our program and Prodigal.
+- Intersection between Gpred + Prodigal → genes that are predicted by our program and Prodigal. 
 - Intersection between Listeria + Prodigal → genes that are correctly predicted by Prodigal but not by our program. 
-- Intersection between Gpred + Listeria → genes that are correctly predicted by our program but not by Prodigal.
+- Intersection between Listeria + Gpred → genes that are correctly predicted by our program but not by Prodigal.
 
-We can see that ...
-
+We can see that using only shine dalgarno motif is not enough to predict all the genes correctly, but it can help to predict some genes that are not predicted by Prodigal.
 
 
 ## Author 🧑‍💻
