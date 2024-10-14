@@ -15,9 +15,7 @@ The program will:
 
 1. **Read the Genome Sequence**: Load the genome sequence from the input FASTA file.
 
-2. **Identify Potential Genes**: 
-- Detect start and stop codons using regex.
-- Search for Shine-Dalgarno motifs upstream of start codons.
+2. **Identify Potential Genes**: Detect start and stop codons using regex, and search for Shine-Dalgarno motifs upstream of start codons.
 
 3. **Validate Genes**: Ensure the gene length meets the minimum threshold and respect the gap between genes.
 
